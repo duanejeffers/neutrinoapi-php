@@ -31,7 +31,7 @@ class Client
         return $this;
     }
     
-    public function __call(string $name, $args) {
+    public function __call($name, $args) {
         $endpoint = strtolower(preg_replace('/(?!^)[A-Z]{2,}(?=[A-Z][a-z])|[A-Z][a-z]/', '-$0', $name));
         $class = 'NeutrinoAPI\\Call\\' . ucfirst($name);
         
