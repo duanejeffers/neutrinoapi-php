@@ -1,0 +1,14 @@
+{
+    "name":"duanejeffers/neutrinoapi-php",
+    "description":"PHP Client for neutrinoapi.com",
+    "license":"MIT",
+    "version":"0.1",
+    "require":{
+        "guzzlehttp/guzzle": "~6.0"
+    },
+    "autoload":{
+        "psr4":{
+            "NeutrinoAPI\\":"src/"
+        }
+    }
+}
