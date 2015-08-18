@@ -37,6 +37,8 @@ class Client
         
         $call = new $class(...$args);
         
+        $call->setCredentials($this->_user_id, $this->_api_key);
+        
         return $this->_client->request($this->_method, $endpoint, [
             'form_params' => $call->requestVars()
         ]);

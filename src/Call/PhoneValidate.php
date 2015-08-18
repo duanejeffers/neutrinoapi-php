@@ -11,6 +11,8 @@ class PhoneValidate implements CallInterface
     
     public function setNumber($number)
     {
+        if(substr($number, 0, 1) !== '+')
+            $number = '+' . $number;
         $this->_number = $number;
         return $this;
     }
