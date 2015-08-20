@@ -19,7 +19,7 @@ trait CallTrait
     }
     
     public function setCredentials($user_id, $api_key) {
-        $this->setUser($user_id)->setAPIKey($api_key);
+        return $this->setUser($user_id)->setAPIKey($api_key);
     }
     
     public function getCredentials() {
@@ -28,4 +28,10 @@ trait CallTrait
             'api-key' => $this->_api_key
         ];
     }
+    
+    public function requestVariables() {
+        return array_merge($this->getCredentials(), $this->getData());
+    }
+    
+    abstract public function getData();
 }
