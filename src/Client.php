@@ -51,6 +51,6 @@ class Client
             $option_key => $call->requestVariables()
         ]);
         
-        return $request->getBody()->getContents();
+        return json_decode($request->getBody()->getContents());
     }
 }
