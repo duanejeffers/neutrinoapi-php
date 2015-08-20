@@ -5,7 +5,7 @@ use GuzzleHttp\Client as GuzzleClient;
 
 class Client
 {
-    protected $_base_url = 'https://www.neutrinoapi.com/';
+    protected $_base_url = 'https://neutrinoapi.com/';
     
     protected $_client;
     
