@@ -1,7 +1,7 @@
 <?php
 namespace NeutrinoAPI\Call;
 
-class PhoneValidate implements CallInterface
+class PhoneValidate
 {
     use CallTrait;
     
@@ -28,11 +28,11 @@ class PhoneValidate implements CallInterface
         $this->setNumber($number)->setCountryCode($country_code);
     }
     
-    public function requestVars()
+    public function getData()
     {
-        return array_merge([
-            'number' => $this->_number
-        ], $this->getCredentials(),
-        (!is_null($this->_country_code) ? ['country-code' => $this->_country_code] : []));
+        return [
+            'number' => $this->_number,
+            'country-code' => $this->_country_code
+        ];
     }
 }

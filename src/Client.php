@@ -17,8 +17,6 @@ class Client
     
     protected $_output_case = "kebab";
     
-    protected $_output_convert = TRUE;
-    
     protected $_method = 'POST';
     
     public function __construct($user_id, $api_key)
@@ -39,8 +37,20 @@ class Client
         
         $call->setCredentials($this->_user_id, $this->_api_key);
         
-        return $this->_client->request($this->_method, $endpoint, [
-            'form_params' => $call->requestVars()
+        switch(strtoupper($this->_method)) {
+            case 'POST':
+                $option_key = 'form_params';
+                break;
+            
+            case 'GET':
+                $option_key = 'query';
+                break;
+        }
+        
+        $request = $this->_client->request($this->_method, $endpoint, [
+            $option_key => $call->requestVars()
         ]);
+        
+        return $request->getBody()->getContents();
     }
 }
