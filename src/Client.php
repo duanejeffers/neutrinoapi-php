@@ -48,7 +48,7 @@ class Client
         }
         
         $request = $this->_client->request($this->_method, $endpoint, [
-            $option_key => $call->requestVars()
+            $option_key => $call->requestVariables()
         ]);
         
         return $request->getBody()->getContents();
