@@ -1,38 +1,29 @@
 <?php
 namespace NeutrinoAPI\Call;
 
-class PhoneValidate
+use \NeutrinoAPI\Parameters;
+use \NeutrinoAPI\Parameter\Number as NumberParam;
+use \NeutrinoAPI\Parameter\CountryCode as CountryCodeParam;
+
+class PhoneValidate implements CallInterface
 {
-    use CallTrait;
     
     protected $_number;
     
     protected $_country_code;
     
-    public function setNumber($number)
+    
+    public function __construct($number, $country_code = NULL)
     {
         if(substr($number, 0, 1) !== '+')
             $number = '+' . $number;
         $this->_number = $number;
-        return $this;
+        $this->_country_code = $country_code;
     }
     
-    public function setCountryCode($code)
+    public function params(Parameters &$parameters)
     {
-        $this->_country_code = $code;
-        return $this;
-    }
-    
-    public function __construct($number, $country_code = NULL)
-    {
-        $this->setNumber($number)->setCountryCode($country_code);
-    }
-    
-    public function getData()
-    {
-        return [
-            'number' => $this->_number,
-            'country-code' => $this->_country_code
-        ];
+        return $parameters->add(new NumberParam($this->_number))
+                          ->add(new CountryCodeParam($this->_country_code));
     }
 }

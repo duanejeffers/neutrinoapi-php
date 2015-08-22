@@ -1,6 +1,10 @@
 <?php
 namespace NeutrinoAPI;
 
+use \NeutrinoAPI\Parameter\ApiKey as ApiKeyParam;
+use \NeutrinoAPI\Parameter\UserId as UserIdParam;
+use \NeutrinoAPI\Parameter\OutputCase as OutputCaseParam;
+use \NeutrinoAPI\Parameter\OutputFormat as OutputFormatParam;
 use GuzzleHttp\Client as GuzzleClient;
 
 class Client
@@ -9,20 +13,18 @@ class Client
     
     protected $_client;
     
-    protected $_user_id;
-    
-    protected $_api_key;
-    
-    protected $_output_format = "json";
-    
-    protected $_output_case = "camel"; // was the default kebab ... but that doesn't translate well.
+    protected $_parameters;
     
     protected $_method = 'POST';
     
-    public function __construct($user_id, $api_key)
+    public function __construct($user_id, $api_key, $output_case = 'camel', $output_format = 'json', $method = 'POST')
     {
-        $this->_user_id = $user_id;
-        $this->_api_key = $api_key;
+        $this->_parameters = new Parameters();
+        $this->_parameters->add(new ApiKeyParam($api_key))
+                          ->add(new UserIdParam($user_id))
+                          ->add(new OutputCaseParam($output_case))
+                          ->add(new OutputFormatParam($output_format));
+        $this->_method = $method;
         
         $this->_client = new GuzzleClient(['base_uri' => $this->_base_url]);
         
@@ -35,8 +37,6 @@ class Client
         
         $call = new $class(...$args);
         
-        $call->setCredentials($this->_user_id, $this->_api_key);
-        
         switch(strtoupper($this->_method)) {
             case 'POST':
                 $option_key = 'form_params';
@@ -48,7 +48,7 @@ class Client
         }
         
         $request = $this->_client->request($this->_method, $endpoint, [
-            $option_key => $call->requestVariables()
+            $option_key => $call->params($this->_parameters)->output()
         ]);
         
         return json_decode($request->getBody()->getContents());
