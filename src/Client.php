@@ -15,7 +15,7 @@ class Client
     
     protected $_output_format = "json";
     
-    protected $_output_case = "kebab";
+    protected $_output_case = "camel"; // was the default kebab ... but that doesn't translate well.
     
     protected $_method = 'POST';
     
